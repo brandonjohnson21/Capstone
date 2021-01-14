@@ -29,18 +29,22 @@ class ConflictPage extends React.Component {
     }
 
     submitConflict = async () => {
-        await fetch(this.props.api + 'conflicts', {
-            method: "POST",
-            headers: {
-                "Accept": "application/json, text/plain, */*",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({"conflict_type_id": this.state.conflict, 
-                "start_time": this.state.selectedStartDate, 
-                "stop_time": this.state.selectedEndDate, 
-                "comment": this.state.comment,
-                "user_id": this.state.updatedUser.user_id})
-        })
+        if (this.state.updatedUser && this.state.conflict) {
+            await fetch(this.props.api + 'conflicts', {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json, text/plain, */*",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({"conflict_type_id": this.state.conflict, 
+                    "start_time": this.state.selectedStartDate, 
+                    "stop_time": this.state.selectedEndDate, 
+                    "comment": this.state.comment,
+                    "user_id": this.state.updatedUser.user_id})
+            })
+        }else{
+            alert("Must select a user and conflict type")
+        }
     }
     
     handleStartDateChange = (date) => {
